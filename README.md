@@ -1,5 +1,4 @@
-# 212-Project
-Analyzing Stock Data
+# 212-Project: Analyzing Stock Data
 
 ## Deliverable and Rules
 You must deliver:
