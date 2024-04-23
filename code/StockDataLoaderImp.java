@@ -1,5 +1,5 @@
 /*
- * This class written by Faisal AlBader - ID:443102460 Class:37637
+ * This class was written by Faisal AlBader - ID:443102460 Class:37637
  * 
  * This class is assigned to: Faisal AlBader
  */
@@ -17,7 +17,7 @@ import java.text.ParseException;
 public class StockDataLoaderImp implements StockDataLoader
 {
   // For Date object
-   public static Date parseDate(String date)
+   private Date parseDate(String date)
    {
      try 
      {
@@ -30,6 +30,8 @@ public class StockDataLoaderImp implements StockDataLoader
      }
   }
 
+
+  
   // 1) Loads and adds stock history from the specified CSV file -- DONE
   // 2) The code of the company is the basename of the file -- DONE
   // 3) This method returns null if the operation is not successful due to errors like -- DONE
@@ -82,7 +84,6 @@ public class StockDataLoaderImp implements StockDataLoader
     catch (FileNotFoundException e)
     {
       System.out.println("An error occurred: " + e.getMessage());
-      e.printStackTrace();
 
       return null;
     }
@@ -90,7 +91,6 @@ public class StockDataLoaderImp implements StockDataLoader
     catch (Exception e) 
     {
       System.out.println("An error occurred: " + e.getMessage());
-      e.printStackTrace();
 
       return null;
     }
@@ -119,10 +119,16 @@ public class StockDataLoaderImp implements StockDataLoader
       }
     }
 
+    catch (FileNotFoundException e)
+    {
+      System.out.println("An error occurred: " + e.getMessage());
+
+      return null;
+    }
+
     catch(Exception e)
     {
       System.out.println("An error occurred: " + e.getMessage());
-      e.printStackTrace();
 
       return null;
     }
