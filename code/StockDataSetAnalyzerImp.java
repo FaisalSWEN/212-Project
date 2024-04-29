@@ -41,13 +41,32 @@ public class StockDataSetAnalyzerImp implements StockDataSetAnalyzer
 
 
 
-	// Returns the list of company codes sorted according to their total volume
-	// between startDate and endDate inclusive. If startDate is null, fetches from
-	// the earliest date. If endDate is null, fetches to the latest
-	// date.
+	// Returns the list of company codes sorted according to their total volume between startDate and endDate inclusive. 
+  // If startDate is null, fetches from the earliest date. -- DONE
+  // If endDate is null, fetches to the latest date. -- DONE
 	public DLLComp<CompPair<String, Long>> getSortedByVolume(Date startDate, Date endDate)
   {
-    
+    DLLComp<CompPair<String, Long>> list = new DLLCompImp<CompPair<String, Long>>();
+
+    Map<String, StockHistory> companiesMap = companiesStockHistory.getStockHistoryMap();
+    DLLComp<String> companies = companiesMap.getKeys();
+
+    companies.findFirst();
+    for(int i=0; i <companies.size(); i ++, companies.findNext())
+    {
+      companiesMap.find(companies.retrieve());
+      DLL<DataPoint<StockData>> dataPointsStockData = companiesMap.retrieve().getTimeSeries().getDataPointsInRange(startDate, endDate);
+      long totalVolume;
+
+      dataPointsStockData.findFirst();
+      for(int j=0; j <dataPointsStockData.size(); j ++, dataPointsStockData.findNext())
+        totalVolume += dataPointsStockData.retrieve().value.volume;
+      
+      list.insert(new CompPair<String, Long>(companies.retrieve(), totalVolume));
+    }
+
+    list.sort(false);
+    return list;
   }
 
 
@@ -78,7 +97,7 @@ public class StockDataSetAnalyzerImp implements StockDataSetAnalyzer
       list.insert(new CompPair<Pair<String, Date>, Double>(new Pair<String, Date>(companies.retrieve(), maxPrice.date), maxPrice.value));
     }
 
-    list.sort(true);
+    list.sort(true); // @ does it need to be sorted ?
     return list;
   }
 
