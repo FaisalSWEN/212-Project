@@ -90,14 +90,14 @@ public class StockDataSetAnalyzerImp implements StockDataSetAnalyzer
 
       dataPointsStockData.findFirst();
       for(int j=0; j <dataPointsStockData.size(); j ++, dataPointsStockData.findNext())
-        dataPointsMaxPrice.addDataPoint(new DataPoint<Double>(dataPointsStockData.retrieve().date, dataPointsStockData.retrieve().value.high));
+        dataPointsMaxPrice.addDataPoint(new DataPoint<Double>(dataPointsStockData.retrieve().date, dataPointsStockData.retrieve().value.close - dataPointsStockData.retrieve().value.open));
       
       DataPoint<Double> maxPrice = dataPointsMaxPrice.getMax();
 
       list.insert(new CompPair<Pair<String, Date>, Double>(new Pair<String, Date>(companies.retrieve(), maxPrice.date), maxPrice.value));
     }
 
-    list.sort(true); // @ does it need to be sorted ?
+    list.sort(false);
     return list;
   }
 

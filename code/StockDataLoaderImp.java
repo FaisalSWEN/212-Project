@@ -8,7 +8,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-
 // For file date input handilng
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -44,14 +43,15 @@ public class StockDataLoaderImp implements StockDataLoader
     */
 	public StockHistory loadStockDataFile(String fileName)
   {
-    StockHistory companyStockHistory = new StockHistoryImp(fileName);
+    StockHistoryImp companyStockHistory = new StockHistoryImp();
 
     try 
     {
-      if (fileName.substring(fileName.indexOf('.')) != ".csv")
+      if (!fileName.substring(fileName.indexOf('.')).equalsIgnoreCase(".csv"))
         throw new Exception("wrong extension file, expected '.csv' but the provided was "+ fileName.substring(fileName.indexOf('.')));
 
-      companyStockHistory.SetCompanyCode(fileName.substring(0, fileName.indexOf('.')));
+      String[] path = (fileName).split("[/]");
+      companyStockHistory.SetCompanyCode(path[path.length - 1].substring(0, path[path.length - 1].indexOf('.')));
       Scanner reader = new Scanner(new File(fileName));
 
       if (reader.hasNextLine())
@@ -64,9 +64,9 @@ public class StockDataLoaderImp implements StockDataLoader
         
         Date date =  parseDate(dataArr[0]); // @if date == null ? return null;
         double open = Double.parseDouble(dataArr[1]);
-        double close = Double.parseDouble(dataArr[2]);
-        double high = Double.parseDouble(dataArr[3]);
-        double low = Double.parseDouble(dataArr[4]);
+        double high = Double.parseDouble(dataArr[2]);
+        double low = Double.parseDouble(dataArr[3]);
+        double close = Double.parseDouble(dataArr[4]);
         long volume = Long.parseLong(dataArr[5]);
         
         if (!companyStockHistory.timeSeries.empty())
@@ -114,9 +114,11 @@ public class StockDataLoaderImp implements StockDataLoader
       for (File fileEntry : directory.listFiles())
       {
         if (fileEntry.isFile() && fileEntry.getName().substring(fileEntry.getName().indexOf('.')) != ".csv")
-          if(!companiesStockHistory.addStockHistory(loadStockDataFile(fileEntry.getName())))
+          if(!companiesStockHistory.addStockHistory(loadStockDataFile(fileEntry.getParent() + "/" + fileEntry.getName())))
             throw new Exception("duplicated files exist, expected a uniqe file names but duplicated files found");
       }
+
+      return companiesStockHistory;
     }
 
     catch (FileNotFoundException e)
