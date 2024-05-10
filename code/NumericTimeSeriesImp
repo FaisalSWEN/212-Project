@@ -1,65 +1,10 @@
-public class NumericTimeSeriesImp implements NumericTimeSeries {
-	TimeSeries<Double> timeSeries;
-	
-	public NumericTimeSeriesImp() {
-		timeSeries = new TimeSeriesImp<Double>();
-	}
-
+public class NumericTimeSeriesImp extends TimeSeriesImp<Double> implements NumericTimeSeries  {
 	@Override
-	public int size(){
-		return timeSeries.size();
-	}
-	@Override
-	public boolean empty() {
-		return timeSeries.empty();
-	}
-	
-	@Override
-	public Double getDataPoint(Date date) { 
-		return timeSeries.getDataPoint(date);
-	}
-	@Override
-	public DLL<Date> getAllDates(){
-		return timeSeries.getAllDates();
-	}
-	@Override
-	public Date getMinDate(){
-		return timeSeries.getMinDate();
-	}
-	@Override
-	public Date getMaxDate(){
-		return timeSeries.getMaxDate();
-	}
-	
-	@Override
-	public boolean addDataPoint(DataPoint<Double> dataPoint) {
-		return timeSeries.addDataPoint(dataPoint);
-	}
-	@Override
-	public boolean updateDataPoint(DataPoint<Double> dataPoint) {
-		return timeSeries.updateDataPoint(dataPoint);
-	}
-	@Override
-	public boolean removeDataPoint(Date date) {
-	
-		return timeSeries.removeDataPoint(date);
-	}
-	@Override
-	public DLL<DataPoint<Double>> getAllDataPoints(){
-
-		return timeSeries.getAllDataPoints();
-	}
-	
-	@Override
-	public DLL<DataPoint<Double>> getDataPointsInRange(Date startDate, Date endDate){
-		return timeSeries.getDataPointsInRange(startDate, endDate);
-	}
-
-public NumericTimeSeries calculateMovingAverage ( int period ) {
+	public NumericTimeSeries calculateMovingAverage ( int period ) {
 		NumericTimeSeries series = new NumericTimeSeriesImp();
-		DLL<DataPoint<Double>> alldataPoints = timeSeries.getAllDataPoints();
+		DLL<DataPoint<Double>> alldataPoints = getAllDataPoints();
 		
-		if(alldataPoints.empty() || period > timeSeries.size())
+		if(alldataPoints.empty() || period > size())
 			return series;
 		
 		
@@ -85,9 +30,11 @@ public NumericTimeSeries calculateMovingAverage ( int period ) {
 		}
 		return series;
 	}
-public DataPoint < Double > getMax () {
+
+@Override
+	public DataPoint < Double > getMax () {
 		
-		DLL<DataPoint<Double>> d = timeSeries.getAllDataPoints(); 
+		DLL<DataPoint<Double>> d = getAllDataPoints(); 
 		DataPoint<Double> max = d.retrieve();
 		d.findFirst();
 		while(!d.last()) {
@@ -99,9 +46,10 @@ public DataPoint < Double > getMax () {
 			max = d.retrieve();
 		return max;
 	}
-	@Override
+
+@Override
 	public DataPoint < Double > getMin (){
-		DLL<DataPoint<Double>> d = timeSeries.getAllDataPoints(); 
+		DLL<DataPoint<Double>> d = getAllDataPoints(); 
 		DataPoint<Double> max = d.retrieve();
 		d.findFirst();
 		while(!d.last()) {
@@ -113,10 +61,4 @@ public DataPoint < Double > getMax () {
 			max = d.retrieve();
 		return max;
 	}
-	
-	
-	
-	
-	
-	
 }
