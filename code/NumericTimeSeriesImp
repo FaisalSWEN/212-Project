@@ -1,0 +1,122 @@
+public class NumericTimeSeriesImp implements NumericTimeSeries {
+	TimeSeries<Double> timeSeries;
+	
+	public NumericTimeSeriesImp() {
+		timeSeries = new TimeSeriesImp<Double>();
+	}
+
+	@Override
+	public int size(){
+		return timeSeries.size();
+	}
+	@Override
+	public boolean empty() {
+		return timeSeries.empty();
+	}
+	
+	@Override
+	public Double getDataPoint(Date date) { 
+		return timeSeries.getDataPoint(date);
+	}
+	@Override
+	public DLL<Date> getAllDates(){
+		return timeSeries.getAllDates();
+	}
+	@Override
+	public Date getMinDate(){
+		return timeSeries.getMinDate();
+	}
+	@Override
+	public Date getMaxDate(){
+		return timeSeries.getMaxDate();
+	}
+	
+	@Override
+	public boolean addDataPoint(DataPoint<Double> dataPoint) {
+		return timeSeries.addDataPoint(dataPoint);
+	}
+	@Override
+	public boolean updateDataPoint(DataPoint<Double> dataPoint) {
+		return timeSeries.updateDataPoint(dataPoint);
+	}
+	@Override
+	public boolean removeDataPoint(Date date) {
+	
+		return timeSeries.removeDataPoint(date);
+	}
+	@Override
+	public DLL<DataPoint<Double>> getAllDataPoints(){
+
+		return timeSeries.getAllDataPoints();
+	}
+	
+	@Override
+	public DLL<DataPoint<Double>> getDataPointsInRange(Date startDate, Date endDate){
+		return timeSeries.getDataPointsInRange(startDate, endDate);
+	}
+
+public NumericTimeSeries calculateMovingAverage ( int period ) {
+		NumericTimeSeries series = new NumericTimeSeriesImp();
+		DLL<DataPoint<Double>> alldataPoints = timeSeries.getAllDataPoints();
+		
+		if(alldataPoints.empty() || period > timeSeries.size())
+			return series;
+		
+		
+		double sum =0;
+		Date date = null;
+		
+		alldataPoints.findFirst();
+		for(int i = 0;i<period;i++) {
+			alldataPoints.findNext();
+		}
+		while(!alldataPoints.last()) {
+			
+			date = alldataPoints.retrieve().date;
+			for(int i =0;i<period;i++) {
+			sum += alldataPoints.retrieve().value;
+			
+			alldataPoints.findPrevious();}
+		
+		series.addDataPoint(new DataPoint(date, sum / period));
+		for(int i = 0;i<period +1 ; i++) {
+			alldataPoints.findNext();
+		}
+		}
+		return series;
+	}
+public DataPoint < Double > getMax () {
+		
+		DLL<DataPoint<Double>> d = timeSeries.getAllDataPoints(); 
+		DataPoint<Double> max = d.retrieve();
+		d.findFirst();
+		while(!d.last()) {
+			if(d.retrieve().value > max.value) 
+				max = d.retrieve();
+			d.findNext();
+		}
+		if(d.retrieve().value> max.value) 
+			max = d.retrieve();
+		return max;
+	}
+	@Override
+	public DataPoint < Double > getMin (){
+		DLL<DataPoint<Double>> d = timeSeries.getAllDataPoints(); 
+		DataPoint<Double> max = d.retrieve();
+		d.findFirst();
+		while(!d.last()) {
+			if(d.retrieve().value < max.value) 
+				max = d.retrieve();
+			d.findNext();
+		}
+		if(d.retrieve().value < max.value) 
+			max = d.retrieve();
+		return max;
+	}
+	
+	
+	
+	
+	
+	
+}
