@@ -1,3 +1,5 @@
+import java.util.Date;
+
 public class NumericTimeSeriesImp extends TimeSeriesImp<Double> implements NumericTimeSeries  {
 	@Override
 	public NumericTimeSeries calculateMovingAverage ( int period ) {
@@ -31,7 +33,7 @@ public class NumericTimeSeriesImp extends TimeSeriesImp<Double> implements Numer
 		return series;
 	}
 
-@Override
+	@Override
 	public DataPoint < Double > getMax () {
 		
 		DLL<DataPoint<Double>> d = getAllDataPoints(); 
@@ -47,7 +49,7 @@ public class NumericTimeSeriesImp extends TimeSeriesImp<Double> implements Numer
 		return max;
 	}
 
-@Override
+	@Override
 	public DataPoint < Double > getMin (){
 		DLL<DataPoint<Double>> d = getAllDataPoints(); 
 		DataPoint<Double> max = d.retrieve();

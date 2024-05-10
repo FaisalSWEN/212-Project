@@ -1,10 +1,12 @@
+import java.util.Date;
+
 public class TimeSeriesImp<T extends Comparable<T>>  implements TimeSeries<T>{
 
 	DLL<DataPoint<T>> all_points;
 	
 	public TimeSeriesImp(){
 		all_points = new DLLImp();
-		}
+	}
 	
 	@Override
 	public int size(){
@@ -32,31 +34,31 @@ public class TimeSeriesImp<T extends Comparable<T>>  implements TimeSeries<T>{
 			return null;
 	}
 
-public DLL<Date> getAllDates() {
-	    DLLCompImp<Date> allDates = new DLLCompImp<Date>(); // to use sorting method without casting
-	    if (all_points.empty()) return allDates;
+	public DLL<Date> getAllDates() {
+		DLLCompImp<Date> allDates = new DLLCompImp<Date>(); // to use sorting method without casting
+		if (all_points.empty()) return allDates;
 
-	    all_points.findFirst();
-	    while (!all_points.last()) {
-	       // System.out.println("Inserting date: " + all_points.retrieve().date); // checking line
-	        allDates.insert(all_points.retrieve().date);
-	        all_points.findNext();
-	    }
-	    allDates.insert(all_points.retrieve().date); // This is for the last element
-	    //System.out.println("Inserting date: " + all_points.retrieve().date); // checking line
-	    allDates.sort(true);
-	    return allDates;
+		all_points.findFirst();
+		while (!all_points.last()) {
+				// System.out.println("Inserting date: " + all_points.retrieve().date); // checking line
+				allDates.insert(all_points.retrieve().date);
+				all_points.findNext();
+		}
+		allDates.insert(all_points.retrieve().date); // This is for the last element
+		//System.out.println("Inserting date: " + all_points.retrieve().date); // checking line
+		allDates.sort(true);
+		return allDates;
 	}
-@Override
+	@Override
 	public Date getMinDate () {
 		DLLComp<Date> dates; // to call getMin method 
-	    dates= (DLLComp<Date>)getAllDates();
-	    if(dates.empty()) return null;
-	    
-	    return dates.getMin();
+		dates= (DLLComp<Date>)getAllDates();
+		if(dates.empty()) return null;
+		
+		return dates.getMin();
 		
 	}
-Override
+	@Override
 	public Date getMaxDate () {
 		DLLComp<Date> dates;
 		dates =(DLLComp<Date>) getAllDates();
@@ -90,7 +92,7 @@ Override
 		else
 			return false;
 	}
-@Override
+	@Override
 	public DLL < DataPoint <T >> getAllDataPoints (){
 		DLLCompImp<CompPair<DataPoint<T> , Date>> newDll = new DLLCompImp<CompPair<DataPoint<T> , Date>>();
 		if(all_points.empty()) return new DLLCompImp();
@@ -116,7 +118,7 @@ Override
 		return result;
 		
 	}
-@Override
+	@Override
 	public DLL < DataPoint <T >> getDataPointsInRange ( Date startDate , Date endDate ){
 			DLL<DataPoint<T>> res = new DLLImp<>();
 		if(startDate != null && endDate != null) { // invalid date input
@@ -144,3 +146,4 @@ Override
 		}
 		return res;
 	}
+}

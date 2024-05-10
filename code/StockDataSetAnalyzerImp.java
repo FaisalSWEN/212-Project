@@ -56,7 +56,7 @@ public class StockDataSetAnalyzerImp implements StockDataSetAnalyzer
     {
       companiesMap.find(companies.retrieve());
       DLL<DataPoint<StockData>> dataPointsStockData = companiesMap.retrieve().getTimeSeries().getDataPointsInRange(startDate, endDate);
-      long totalVolume;
+      long totalVolume = 0;
 
       dataPointsStockData.findFirst();
       for(int j=0; j <dataPointsStockData.size(); j ++, dataPointsStockData.findNext())

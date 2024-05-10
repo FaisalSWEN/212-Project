@@ -44,7 +44,7 @@ public class StockDataLoaderImp implements StockDataLoader
     */
 	public StockHistory loadStockDataFile(String fileName)
   {
-    StockHistory companyStockHistory = new StockHistoryImp();
+    StockHistory companyStockHistory = new StockHistoryImp(fileName);
 
     try 
     {
