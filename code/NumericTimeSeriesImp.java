@@ -2,35 +2,32 @@ import java.util.Date;
 
 public class NumericTimeSeriesImp extends TimeSeriesImp<Double> implements NumericTimeSeries  {
 	@Override
-	public NumericTimeSeries calculateMovingAverage ( int period ) {
-		NumericTimeSeries series = new NumericTimeSeriesImp();
-		DLL<DataPoint<Double>> alldataPoints = getAllDataPoints();
-		
-		if(alldataPoints.empty() || period > size())
-			return series;
-		
-		
-		double sum =0;
-		Date date = null;
-		
-		alldataPoints.findFirst();
-		for(int i = 0;i<period;i++) {
-			alldataPoints.findNext();
-		}
-		while(!alldataPoints.last()) {
-			
-			date = alldataPoints.retrieve().date;
-			for(int i =0;i<period;i++) {
-			sum += alldataPoints.retrieve().value;
-			
-			alldataPoints.findPrevious();}
-		
-		series.addDataPoint(new DataPoint(date, sum / period));
-		for(int i = 0;i<period +1 ; i++) {
-			alldataPoints.findNext();
-		}
-		}
-		return series;
+	public NumericTimeSeries calculateMovingAverage(int period) {
+	    if (period <= 0)
+	        throw new IllegalArgumentException("Period must be positive");
+
+	    NumericTimeSeries series = new NumericTimeSeriesImp();
+	    DLL<DataPoint<Double>> allDataPoints = getAllDataPoints();
+	    DataPoint<Double>[] dataPoints = new DataPoint[allDataPoints.size()];
+
+	    allDataPoints.findFirst();
+	    for (int i = 0; i < dataPoints.length; i++) {
+	        dataPoints[i] = allDataPoints.retrieve(); // Transferring Elements from DLL to an array
+	        allDataPoints.remove();                   // deleting elements from DLL to save memory
+	    }
+
+	    double sum = 0;
+	    for (int i = 0; i < dataPoints.length; i++) {
+	        sum += dataPoints[i].value;
+	        if (i >= period - 1) {
+	            if (i >= period)
+	                sum -= dataPoints[i - period].value;
+
+	            series.addDataPoint(new DataPoint<>(dataPoints[i].date, sum / period));
+	        }
+	    }
+
+	    return series;
 	}
 
 	@Override
