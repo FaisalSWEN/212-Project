@@ -1,5 +1,3 @@
-import java.util.Date;
-
 public class NumericTimeSeriesImp extends TimeSeriesImp<Double> implements NumericTimeSeries  {
 	@Override
 	public NumericTimeSeries calculateMovingAverage(int period) {

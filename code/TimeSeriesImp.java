@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class TimeSeriesImp<T extends Comparable<T>>  implements TimeSeries<T>{
+public class TimeSeriesImp<T>  implements TimeSeries<T>{
 
 	DLL<DataPoint<T>> all_points;
 	
