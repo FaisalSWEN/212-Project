@@ -20,12 +20,12 @@ public class StockDataLoaderImp implements StockDataLoader
    {
      try 
      {
-         return new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        return new SimpleDateFormat("yyyy-MM-dd").parse(date);
      } 
 
      catch (ParseException e) 
      {
-         return null;
+        return null;
      }
   }
 
